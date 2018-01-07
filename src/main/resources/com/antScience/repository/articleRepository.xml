@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.antScience.repository.article.ArticleRepository">
+    <resultMap id="article" type="com.antScience.entity.article.Article">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="label" property="label" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="creation_time" property="creationTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="create" parameterType="com.antScience.entity.article.Article">
+        INSERT INTO db_ant_science.article
+        (id, user_name, content, title, label)
+        VALUES
+        (#{id}, #{userName}, #{content}, #{title}, #{label})
+    </insert>
+
+    <update id="update" parameterType="com.antScience.entity.article.Article">
+        UPDATE db_ant_science.article SET title = #{title}, content = #{content}, label = #{label}, updated_time = now()
+        WHERE id = #{id} AND status = '00'
+    </update>
+
+    <delete id="deleteById" parameterType="string">
+        UPDATE db_ant_science.article SET status = '01' WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" parameterType="string" resultMap="article">
+        SELECT * FROM db_ant_science.article WHERE id = #{id} AND status = '00'
+    </select>
+
+    <select id="selectByUserName" parameterType="string" resultMap="article">
+        SELECT * FROM db_ant_science.article WHERE user_name = #{userName} AND status = '00'
+    </select>
+
+    <select id="loadArticles" parameterType="string" resultMap="article">
+        SELECT * FROM db_ant_science.article WHERE status = '00'
+        <if test="userName != null and userName != ''">
+            AND user_name = #{userName}
+        </if>
+        <if test="label != null and label != ''">
+            AND label = #{label}
+        </if>
+    </select>
+
+</mapper>
+    

@@ -1,0 +1,48 @@
+
+jwt:
+  header: Authorization
+  secret: my-very-secret-key
+
+server:
+  port: 8888
+spring:
+  resources:
+    chain:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jackson:
+    serialization: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_ant_science?prepStmtCacheSize=517&cachePrepStmts=true&autoReconnect=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: root
+#    password: Rootantqw31&39
+    password: 199011081108
+    tomcat:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'X'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    pool-prepared-statements: false
+    max-pool-prepared-statement-per-connection-size: 20
+    filters: stat,wall,slf4j
+
+mybatis:
+  mapper-locations: classpath*:cn/rayest/mybatis/*.xml
+  type-aliases-package: cn.rayest
+
+security:
+  basic:
+    enabled: false
+
+
